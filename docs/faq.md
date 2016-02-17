@@ -1,52 +1,52 @@
-# Frequently asked questions
+# FAQ 
 
 
-#### Do I need to have a port opened?
+#### Должен ли порт 15441 быть открытым?
 
-This is __optional__, you can browse and use ZeroNet sites without an open port.
-If you want to create a new site it's highly recommended to have an open port.
+Не это __не обязательно__, Вы можете просматривать и пользоваться Зеросайтами с закрытым портом.
+Однако, для создания новых сайтов мы крайне рекомендуем вам держать порт открытым.
 
-At startup ZeroNet tries to open a port for you on your router using
-[UPnP](https://wikipedia.org/wiki/Universal_Plug_and_Play), if this fails you have to do it manually:
+После запуска ZeroNet пытается открыть порт на Вашем роутере, используя 
+[UPnP](https://wikipedia.org/wiki/Universal_Plug_and_Play), и в случае, если это не сработало, Вы должны открыть его вручную:
 
-- Try access your router's web interface using [http://192.168.1.1](http://192.168.1.1)
-or [http://192.168.0.1](http://192.168.0.1)
-- Look for an "Enable UPnP support" or similar option then restart ZeroNet.
+- Попробуйте запустить веб-интерфейс Вашего роутера в браузере по адресу:  [http://192.168.1.1](http://192.168.1.1)
+или [http://192.168.0.1](http://192.168.0.1)
+- Проверьте, стоит ли галочка напротив пункта "Enable UPnP support" (или аналогичного)
 
-If it still doesn't work then try to find a 'port forwarding' section. This is different in every router. [Here is a tutorial on YouTube.](https://www.youtube.com/watch?v=aQXJ7sLSz14) The port to forward is 15441.
-
-
----
-
-
-#### Is ZeroNet anonymous?
-
-It's no more anonymous than BitTorrent, but privacy (the possibility to find out who is the owner of the comment/site) will increase as the network and the sites gains more peers.
-
-ZeroNet is made to work with anonymity networks: you can easily hide your IP using the Tor network.
+Если это не помогло, попытайтесь найти раздел с переброской портов "port forwarding". Он разный на каждом роутере. Здесь находится обучающий ролик на Youtube [Here is a tutorial on YouTube.](https://www.youtube.com/watch?v=aQXJ7sLSz14) Перебросить необходимо порт 15441.
 
 
 ---
 
 
-#### How to use ZeroNet with Tor?
+#### Как в ZeroNet обстоят дела с анонимностью?
 
-If you want to hide your IP install the latest version of ZeroNet then start it using the `zeronet.py --tor always` parameter.
+ZeroNet не более анонимен чем BitTorrent, но приватность (возможность выяснить кто является создателем конкретного сайта или автором отдельного комментария) возрастает с ростом сети и увеличением количеством пиров у каждого сайта.
 
-On Windows Tor is bundled with ZeroNet for other OS [follow Tor install instructions](https://www.torproject.org/docs/installguide.html),
-edit your torrc configuration file by removing `#` from line `# ControlPort 9051` then restart your Tor service and ZeroNet.
-
-> __Tip:__ You can verify your IP address using ZeroNet's [Stats](http://127.0.0.1:43110/Stats) page.
-
-> __Tip:__ If you get connection errors make sure you have the latest version of Tor installed. (0.2.7.5 required)
+ZeroNet подходит для работы с анонимными сетями: вы можете легко спрятать свой IP-адрес, используя сеть Tor.
 
 
 ---
 
 
-#### How to make ZeroNet work with Tor under Linux?
+#### Как использовать ZeroNet через Tor?
 
-Upgrade to latest version of Tor (we need 0.2.7.5+), follow [these](https://www.torproject.org/docs/debian.html.en) instructions eg. for Debian:
+Если вы хотите спрятать свой IP, установите последнюю версию ZeroNet, а затем запустите его со следующим параметром: `zeronet.py --tor always`
+
+На Windows нет необходимости в дополнительных настройках, так как Tor работает "из коробки". Для других ОС следуйте [инструкции по установке Tor](https://www.torproject.org/docs/installguide.html),
+отредактируйте Ваш файл конфигурации torrc, убрав `#` из строки `# ControlPort 9051` а затем перезапустите сервис Tor и ZeroNet.
+
+> __Совет:__ Вы можете проверить свой IP адрес на странице ZeroNet [статистики](http://127.0.0.1:43110/Stats).
+
+> __Совет:__ Если у вас возникают ошибки при соединении с сетью убедитесь, что у Вас установлена последняя версия Tor (необходима версия не ниже 0.2.7.5)
+
+
+---
+
+
+#### Как заставить ZeroNet работать через Tor под Linux?
+
+Обновите Tor до последней версии (не ниже 0.2.7.5), и следуйте этой [инструкции](https://www.torproject.org/docs/debian.html.en). Например, для Debian:
 
  - `echo 'deb http://deb.torproject.org/torproject.org jessie main'>> /etc/apt/sources.list.d/tor.list`
  - `gpg --keyserver keys.gnupg.net --recv 886DDD89`
@@ -54,25 +54,25 @@ Upgrade to latest version of Tor (we need 0.2.7.5+), follow [these](https://www.
  - `apt-get update`
  - `apt-get install tor`
 
-Edit config to enable controll protocol:
-
+Отредактируйте config для включения контроля протокола:
+ 
  - `mcedit /etc/tor/torrc`
- - Remove the `#` character from lines `ControlPort 9051` and `CookieAuthentication 1` (line ~57)
+ - Удалите символ `#` из строки `ControlPort 9051` и `CookieAuthentication 1` (строка ~57)
  - `/etc/init.d/tor restart`
- - Add permission yourself to read the auth cookie by `usermod -a -G debian-tor [yourlinuxuser]`<br>(if you are not on Debian check the file's user group by `ls -al /var/run/tor/control.authcookie`)
- - Logout/Login with your user to apply group changes
+ - Добавьте себе разрешение на чтение авторских cookie при помощи `usermod -a -G debian-tor [yourlinuxuser]`<br>(если вы не используете Debian проверьте группу пользователей файла командой `ls -al /var/run/tor/control.authcookie`)
+ - Разлогиньтесь и залогиньтесь снова под своим пользователем для применения групповых изменений
 
-> __Tip:__ You can verify if your Tor running correctly using `echo 'PROTOCOLINFO' | nc 127.0.0.1 9051`
+> __Совет:__ Вы можете проверить корректность работы Tor командой `echo 'PROTOCOLINFO' | nc 127.0.0.1 9051`
 
-> __Tip:__ It's also possible to use without modifying torrc (or using older version of Tor clients) by running it `zeronet.py --tor disable --proxy 127.0.0.1:9050 --disable_udp`, but then you will loose ability to talk with other .onion addresses.
+> __Совет:__ Это также можно делать без изменения torrc (или используя старые версии клиента Tor) при помощи команды: `zeronet.py --tor disable --proxy 127.0.0.1:9050 --disable_udp`, но тогда у Вас не будет возможности связываться с другими адресами .onion.
 
 
 
 ---
 
-#### Can I use the same username on multiple machine?
+#### Могу ли использовать одно и тоже имя пользователя (никнейм) на разных машинах?
 
-Yes, you have to copy the `data/users.json` file.
+Да, для этого достаточно скопировать на другую машину файл `data/users.json`.
 
 
 ---
@@ -99,15 +99,15 @@ After the registration is done you have to edit your domain's record by adding a
 "" means the top domain, any other that that is a sub-domain.
 
 
-> __Tip:__ You can buy Namecoin for Bitcoin or other cryptocurrencies using [shapeshift.io](https://shapeshift.io/).
+> __Совет:__ You can buy Namecoin for Bitcoin or other cryptocurrencies using [shapeshift.io](https://shapeshift.io/).
 
-> __Tip:__ Other possibilities to register .bit domains: [domaincoin.net](https://domaincoin.net/), [peername.com](https://peername.com/), [dotbit.me](https://dotbit.me/)
+> __Совет:__ Other possibilities to register .bit domains: [domaincoin.net](https://domaincoin.net/), [peername.com](https://peername.com/), [dotbit.me](https://dotbit.me/)
 
-> __Tip:__ You can verify your domain on [namecha.in](http://namecha.in/), for example: [zeroid.bit](http://namecha.in/name/d/zeroid)
+> __Совет:__ You can verify your domain on [namecha.in](http://namecha.in/), for example: [zeroid.bit](http://namecha.in/name/d/zeroid)
 
-> __Tip:__ You should use only [lower-cased letters, numbers and - in your domains](http://wiki.namecoin.info/?title=Domain_Name_Specification_2.0#Valid_Domains).
+> __Совет:__ You should use only [lower-cased letters, numbers and - in your domains](http://wiki.namecoin.info/?title=Domain_Name_Specification_2.0#Valid_Domains).
 
-> __Tip:__ To make ZeroHello to link your domain instead of your site's address, add a domain key to your content.json. ([Example](https://github.com/HelloZeroNet/ZeroBlog/blob/master/content.json#L6))
+> __Совет:__ To make ZeroHello to link your domain instead of your site's address, add a domain key to your content.json. ([Example](https://github.com/HelloZeroNet/ZeroBlog/blob/master/content.json#L6))
 
 
 ---
@@ -117,7 +117,7 @@ After the registration is done you have to edit your domain's record by adding a
 
 Yes, it's a standard Bitcoin address. The private key is WIF formatted, so you can import it in most clients.
 
-> __Tip:__ It's not recommended to keep a high amount of money on your site's address, because you have to enter your private key every time you modify your site.
+> __Совет:__ It's not recommended to keep a high amount of money on your site's address, because you have to enter your private key every time you modify your site.
 
 
 ---
@@ -137,9 +137,9 @@ Yes, you have to enable the UiPassword plugin by renaming the __plugins/disabled
 then start ZeroNet on the remote machine using <br>`zeronet.py --ui_ip "*" --ui_password anypassword`.
 This will bind the ZeroNet UI webserver to all interfaces, but to keep it secure you can only access it by entering the given password.
 
-> __Tip:__ You can also restrict the interface based on ip address by using `--ui_restrict ip1 ip2`.
+> __Совет:__ You can also restrict the interface based on ip address by using `--ui_restrict ip1 ip2`.
 
-> __Tip:__ You can specify the password in config file by creating a `zeronet.conf` file and add `[global]`, `ui_password = anypassword` lines to it.
+> __Совет:__ You can specify the password in config file by creating a `zeronet.conf` file and add `[global]`, `ui_password = anypassword` lines to it.
 
 
 ---
@@ -149,7 +149,7 @@ This will bind the ZeroNet UI webserver to all interfaces, but to keep it secure
 
 The sent/received bytes are displayed at ZeroNet's sidebar.<br>(open it by dragging the topright `0` button to left)
 
-> __Tip:__ Per connection statistics page: [http://127.0.0.1:43110/Stats](http://127.0.0.1:43110/Stats)
+> __Совет:__ Per connection statistics page: [http://127.0.0.1:43110/Stats](http://127.0.0.1:43110/Stats)
 
 
 ---
